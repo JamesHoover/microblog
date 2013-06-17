@@ -4,7 +4,7 @@ from app import app, db, lm, oid
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, WHOOSH_ENABLED
 from emails import follower_notification
 
 @lm.user_loader
@@ -19,6 +19,7 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+    g.search_enabled = WHOOSH_ENABLED
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
